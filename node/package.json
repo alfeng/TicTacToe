@@ -1,0 +1,31 @@
+{
+  "name": "cgdvV8",
+  "version": "0.0.1",
+  "scripts": {
+    "install": "node-gyp rebuild",
+    "postinstall": "electron-rebuild -v \"1.7.12\"",
+    "compile": "node-gyp rebuild",
+    "test": "node cgdv-test.js"
+  },
+  "dependencies": {
+    "bindings": "^1.3.0",
+    "nan": "^2.8.0"
+  },
+  "devDependencies": {
+    "electron-rebuild": "^1.7.3"
+  },
+  "gypfile": true,
+  "author": "ALF",
+  "license": "ISC",
+  "main": "cgdv-lib.js",
+  "keywords": [],
+  "homepage": "https://github.com/cgt/node-cgdvV8",
+  "repository": {
+    "type": "svn",
+    "url": "https://v8.googlecode.com/svn/trunk/"
+  },
+  "publishConfig":{
+    "registry":"http://repo.lab.cgtglobal.com/nexus/repository/npm-internal"
+  },
+  "description": "CGDV-LIB for V8/Node.js"
+}
