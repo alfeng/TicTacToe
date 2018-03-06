@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name">TicMyTac</string>
+    <string name="copyright">©2018 Mythica, LLC</string>
+    <string name="new_game">New Game</string>
+    <string name="game_over">Game Over</string>
+    <string name="ai_turn">AI Turn</string>
+    <string name="human_turn">Human Turn</string>
+    <string name="ai_wins">AI Wins</string>
+    <string name="human_wins">Human Wins</string>
+    <string name="button_00">Button 0.0</string>
+    <string name="button_01">Button 0.1</string>
+    <string name="button_02">Button 0.2</string>
+    <string name="button_10">Button 1.0</string>
+    <string name="button_11">Button 1.1</string>
+    <string name="button_12">Button 1.2</string>
+    <string name="button_20">Button 2.0</string>
+    <string name="button_21">Button 2.1</string>
+    <string name="button_22">Button 1.2</string>
+</resources>
