@@ -1,8 +1,20 @@
 #Android Studio files
+*.apk
+*.ap_
 *.iml
-.gradle
-/local_properties
-/.idea
+*.dex
+*.log
+*.class
+.gradle/
+local.properties
+google-services.json
+.idea/
 .DS_Store
-/build
-/captures
+bin/
+gen/
+out/
+build/
+proguard/
+captures/
+.navigation/
+.externalNativeBuild/
