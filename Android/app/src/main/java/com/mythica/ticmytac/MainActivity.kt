@@ -3,6 +3,7 @@ package com.mythica.ticmytac
 import android.os.Bundle
 import android.os.Handler
 import android.view.View
+import android.widget.Button
 import android.widget.ImageButton
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
@@ -13,7 +14,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 // Single activity app
 class MainActivity : AppCompatActivity()
 {
-    val LOG_TAG = "TICTAC"
+    private val LOG_TAG = "TICTAC"
 
     /**
      * A native method that is implemented by the 'native-lib' native library,
@@ -21,10 +22,10 @@ class MainActivity : AppCompatActivity()
      */
     external fun stringFromJNI(): String
 
-    external fun newGame()
-    external fun doTurn(row: Int, col: Int)
-    external fun doAITurn(turnData: CellData)
-    external fun isGameOver(rows: ArrayList<Int>, cols: ArrayList<Int>): Int
+    private external fun newGame()
+    private external fun doTurn(row: Int, col: Int)
+    private external fun doAITurn(turnData: CellData)
+    private external fun isGameOver(rows: ArrayList<Int>, cols: ArrayList<Int>): Int
 
     companion object
     {
@@ -36,13 +37,13 @@ class MainActivity : AppCompatActivity()
     }
 
     // Keep track whos turn it is
-    var curPlayer = MarkerType.X;
-    var humanPlayer = MarkerType.X;
-    var aiPlayer = MarkerType.O;
+    private var curPlayer = MarkerType.X;
+    private var humanPlayer = MarkerType.X;
+    private var aiPlayer = MarkerType.O;
 
     // Button colors
-    var winColor: Int = 0
-    var buttonColor = IntArray(3)
+    private var winColor: Int = 0
+    private var buttonColor = IntArray(3)
 
     // Marker types
     enum class MarkerType(val value: Int) { NONE(0), X(1), O(2) }
@@ -51,15 +52,15 @@ class MainActivity : AppCompatActivity()
     data class CellData(val row: Int = 0, val col: Int = 0)
 
     // Play buttons
-    val buttonMap = mapOf( R.id.button00 to CellData(0,0),
-                           R.id.button01 to CellData(0,1),
-                           R.id.button02 to CellData(0,2),
-                           R.id.button10 to CellData(1,0),
-                           R.id.button11 to CellData(1,1),
-                           R.id.button12 to CellData(1,2),
-                           R.id.button20 to CellData(2,0),
-                           R.id.button21 to CellData(2,1),
-                           R.id.button22 to CellData(2,2) )
+    private val buttonMap = mapOf( R.id.button00 to CellData(0,0),
+                                   R.id.button01 to CellData(0,1),
+                                   R.id.button02 to CellData(0,2),
+                                   R.id.button10 to CellData(1,0),
+                                   R.id.button11 to CellData(1,1),
+                                   R.id.button12 to CellData(1,2),
+                                   R.id.button20 to CellData(2,0),
+                                   R.id.button21 to CellData(2,1),
+                                   R.id.button22 to CellData(2,2) )
 
     // Activity initialization
     override fun onCreate(savedInstanceState: Bundle?)
@@ -76,12 +77,22 @@ class MainActivity : AppCompatActivity()
         // Reset game board
         resetGameBoard()
 
+        // Set onClickListener for new game button
+        val button = findViewById<Button>(R.id.newGameButton)
+        button.setOnClickListener(::onNewGameClick)
+
+        // Set onClickListener for game buttons
+        for ((key, value) in buttonMap)
+        {
+            val imgButton = findViewById<ImageButton>(key)
+            imgButton.setOnClickListener(::onCellClick)
+        }
+
         // Example of a call to a native method
 //        textCopyright.text = stringFromJNI()
     }
 
-    // Handler for new game button
-    fun onNewGameClick(view: View)
+    private fun onNewGameClick(view: View)
     {
         // Reset game AI
         newGame()
@@ -91,7 +102,7 @@ class MainActivity : AppCompatActivity()
     }
 
     // Handler for play buttons
-    fun onCellClick(view: View)
+    private fun onCellClick(view: View)
     {
         // Ignore input unless it's the player's turn
         if (curPlayer == humanPlayer)
@@ -109,7 +120,7 @@ class MainActivity : AppCompatActivity()
     }
 
     // Make move for AI
-    fun makeHumanMove(view: View)
+    private fun makeHumanMove(view: View)
     {
         // Mark human button
         val button = this.findViewById(view.id) as ImageButton
@@ -122,11 +133,11 @@ class MainActivity : AppCompatActivity()
     }
 
     // Make move for AI
-    fun makeAIMove()
+    private fun makeAIMove()
     {
         // Do AI turn
         curPlayer = aiPlayer
-        var turnData = CellData(0,0)
+        val turnData = CellData(0,0)
         doAITurn(turnData)
 
         // Determine which button AI played
@@ -149,7 +160,7 @@ class MainActivity : AppCompatActivity()
     }
 
     // Reset game board to initial state
-    fun resetGameBoard()
+    private fun resetGameBoard()
     {
         // Human goes first
         textCopyright.text = resources.getString(R.string.human_turn)
@@ -158,14 +169,14 @@ class MainActivity : AppCompatActivity()
         // Reset color & state of all buttons
         for ((key, value) in buttonMap)
         {
-            var button = this.findViewById(key) as ImageButton
+            val button = this.findViewById(key) as ImageButton
             button.setColorFilter(buttonColor[MarkerType.NONE.value])
             button.isClickable = true
         }
     }
 
     // Check for end of game
-    fun checkGameOver() : Boolean
+    private fun checkGameOver() : Boolean
     {
         // Winner info.
         var rc = false
@@ -216,7 +227,7 @@ class MainActivity : AppCompatActivity()
     }
 
     // Goto next player
-    fun switchPlayers()
+    private fun switchPlayers()
     {
         // Determine current player
         if (curPlayer == humanPlayer)

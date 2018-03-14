@@ -1,5 +1,6 @@
 #include <jni.h>
 #include <sstream>
+#include <android/log.h>
 
 #include "CTicTacToe.h"
 
