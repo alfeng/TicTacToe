@@ -3,7 +3,6 @@
 
 #include <vector>
 
-
 // Marker type for each board cell
 typedef enum {
 	NO_MARKER = 0, X_MARKER, O_MARKER

@@ -4,7 +4,6 @@
 
 #include "CTicTacToe.h"
 
-
 // Marker names for printing
 std::string const CTicTacToe::markerName[] = { " ", "X", "O" };
 std::string const CTicTacToe::winnerName[] = { " ", "+", "*" };
@@ -13,7 +12,6 @@ std::string const CTicTacToe::winnerName[] = { " ", "+", "*" };
 int const CTicTacToe::baseScore[NUM_ROWS][NUM_COLS] = { { 2, 1, 2 },
 														{ 1, 3, 1 },
 														{ 2, 1, 2 } };
-
 
 // Constructor
 CTicTacToe::CTicTacToe()
@@ -195,7 +193,7 @@ int CTicTacToe::itemIndex(std::vector<int> vec, int val)
 	{
 		std::vector<int>::iterator itr = std::find(vec.begin(), vec.end(), val);
 		if (itr != vec.end())
-			rc = std::distance(vec.begin(), itr);
+			rc = (int) std::distance(vec.begin(), itr);
 	}
 
 	return rc;
@@ -389,7 +387,7 @@ void CTicTacToe::evaluateRow(MARKER_TYPE playerMarker, std::vector<MARKER_TYPE*>
 		if (*markers[i] == NO_MARKER)
 		{
 			// Set index for win & block evaluations
-			idxUnmarked = i;
+			idxUnmarked = (int) i;
 			break;
 		}
 	}

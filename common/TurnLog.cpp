@@ -3,12 +3,8 @@
 // ****************************************************************************
 
 #include <vector>
-#include <string>
-#include <iomanip>
-#include <iostream>
 
 #include "TurnLog.h"
-
 
 // Constructor
 CTurnLog::CTurnLog()
@@ -24,7 +20,7 @@ CTurnLog::~CTurnLog()
 int CTurnLog::GetTurnCount(void)
 {
 	// Just use vector size
-	return turnRow.size();
+	return (int) turnRow.size();
 }
 
 // Clear log

@@ -16,7 +16,6 @@
 #define COL_SEPARATOR "|"
 #define ROW_SEPARATOR "-|-|-"
 
-
 // Tic Tac Toe class
 class CTicTacToe
 {
@@ -98,8 +97,8 @@ protected:
 	const int SCORE_TO_WIN = 20;
 
 	// Player & AI marker types
-	MARKER_TYPE aiMarker = X_MARKER;
-	MARKER_TYPE playerMarker = O_MARKER;
+//	MARKER_TYPE aiMarker = X_MARKER;
+//	MARKER_TYPE playerMarker = O_MARKER;
 
 	// Turn log
 	CTurnLog turnLog;
