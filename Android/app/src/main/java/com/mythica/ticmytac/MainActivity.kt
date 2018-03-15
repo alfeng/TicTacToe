@@ -10,7 +10,6 @@ import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import kotlinx.android.synthetic.main.activity_main.*
 
-
 // Single activity app
 class MainActivity : AppCompatActivity()
 {
@@ -37,9 +36,9 @@ class MainActivity : AppCompatActivity()
     }
 
     // Keep track whos turn it is
-    private var curPlayer = MarkerType.X;
-    private var humanPlayer = MarkerType.X;
-    private var aiPlayer = MarkerType.O;
+    private var curPlayer = MarkerType.X
+    private var humanPlayer = MarkerType.X
+    private var aiPlayer = MarkerType.O
 
     // Button colors
     private var winColor: Int = 0
@@ -212,7 +211,7 @@ class MainActivity : AppCompatActivity()
                         if ((value.row == rows[i]) && (value.col == cols[i]))
                         {
                             // Blink winning cells (for now just change colors)
-                            var button = this.findViewById(key) as ImageButton
+                            val button = this.findViewById(key) as ImageButton
                             button.setColorFilter(winColor)
 
                             Log.v(LOG_TAG,"(" + rows[i] + "," + cols[i] + ")")
