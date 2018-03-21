@@ -1,16 +1,15 @@
 #ifdef THIS_FILE
 #undef THIS_FILE
 #endif
-#define THIS_FILE "cgdv_v8.cpp"
+#define THIS_FILE "TicTacToeV8.cpp"
 
 #include <nan.h>
 
-#include "CgdvApp.h"
-#include "v8CgdvStatus.h"
+#include "CTicTacToe.h"
 
 
 // ********************************************************************
-//   Cgdv interface
+//   TicTacToe interface
 // ********************************************************************
 
 // App interface for CGDV
