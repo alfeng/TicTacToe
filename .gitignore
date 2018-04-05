@@ -1,4 +1,4 @@
 #Mac trash files
 .DS_Store
-#Visual Studio Code
-.vscode
+#Visual Studio Code directories
+.vscode/
