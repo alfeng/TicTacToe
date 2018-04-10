@@ -11,7 +11,7 @@
     "bindings": "^1.3.0"
   },
   "gypfile": true,
-  "author": "alfarmer",
+  "author": "alfeng",
   "license": "ISC",
   "main": "tic-tac-svc.js",
   "keywords": [],
