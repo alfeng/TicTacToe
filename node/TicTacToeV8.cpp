@@ -43,24 +43,21 @@ NAN_METHOD(Startup)
 NAN_METHOD(NewGame)
 {
 	// Start CGDV
-	if (cgdvApp != NULL)
-		cgdvApp->Update();
+	tttGame.Update();
 }
 
 // Revalidate CGDV on Main UI thread
 NAN_METHOD(Validate)
 {
 	// Start CGDV
-	if (cgdvApp != NULL)
-		cgdvApp->Revalidate();
+	tttGame->Revalidate();
 }
 
 // Shutdown CGDV on Main UI thread
 NAN_METHOD(Shutdown)
 {
 	// Start CGDV
-	if (cgdvApp != NULL)
-		cgdvApp->Shutdown();
+	tttGame->Shutdown();
 }
 
 // Module initialization logic
