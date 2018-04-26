@@ -6,13 +6,52 @@
 #include <nan.h>
 #include "CTicTacToe.h"
 
+// The game brain
+CTicTacToe tttGame;
 
 // ********************************************************************
 //   Javascript interface
 // ********************************************************************
 
-// The game brain
-CTicTacToe tttGame;
+// *** NewGame()
+// *** IsGameOver()
+// *** DoTurn()
+// *** DoAiTurn()
+// *** IsGameOver()
+
+class CTicTacToe
+{
+public:
+	// Start a new game
+	void NewGame(void);
+
+	// Get current marker at specified cell
+	MARKER_TYPE GetMark(int row, int col);
+
+	// Set specified cell to specified marker (returns FALSE if cell was already marked)
+	bool SetMark(int row, int col, MARKER_TYPE marker);
+
+	// Choose best move for specified marker
+	void GetBestMove(MARKER_TYPE marker, int &row, int &col);
+
+	// Check for game over (returns winning row if applicable)
+	bool IsGameOver(std::vector<int> &rows, std::vector<int> &cols);
+
+	// Get number of turns that have been played
+	int GetTurnCount(void);
+
+	// Undo turn
+	void UndoTurn(void);
+
+	// Print the current board state
+	void PrintBoard(std::vector<int> &winRows, std::vector<int> &winCols);
+
+	// Marker names for printing
+	static std::string const markerName[];
+	static std::string const winnerName[];
+}
+
+
 
 // Init the TicTacToe Engine
 NAN_METHOD(Startup)
@@ -80,3 +119,4 @@ NAN_MODULE_INIT(Initialize)
 
 // Create the add-on module and initialize it (created with NAN_MODULE_INIT macro)
 NODE_MODULE(tic-tac-svc, Initialize);
+
