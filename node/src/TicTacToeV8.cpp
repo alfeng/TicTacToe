@@ -13,46 +13,6 @@ CTicTacToe tttGame;
 //   Javascript interface
 // ********************************************************************
 
-// *** NewGame()
-// *** IsGameOver()
-// *** DoTurn()
-// *** DoAiTurn()
-// *** IsGameOver()
-
-class CTicTacToe
-{
-public:
-	// Start a new game
-	void NewGame(void);
-
-	// Get current marker at specified cell
-	MARKER_TYPE GetMark(int row, int col);
-
-	// Set specified cell to specified marker (returns FALSE if cell was already marked)
-	bool SetMark(int row, int col, MARKER_TYPE marker);
-
-	// Choose best move for specified marker
-	void GetBestMove(MARKER_TYPE marker, int &row, int &col);
-
-	// Check for game over (returns winning row if applicable)
-	bool IsGameOver(std::vector<int> &rows, std::vector<int> &cols);
-
-	// Get number of turns that have been played
-	int GetTurnCount(void);
-
-	// Undo turn
-	void UndoTurn(void);
-
-	// Print the current board state
-	void PrintBoard(std::vector<int> &winRows, std::vector<int> &winCols);
-
-	// Marker names for printing
-	static std::string const markerName[];
-	static std::string const winnerName[];
-}
-
-
-
 // Init the TicTacToe Engine
 NAN_METHOD(Startup)
 {
@@ -92,25 +52,42 @@ NAN_METHOD(NewGame)
 // Do player turn
 NAN_METHOD(DoTurn)
 {
-	// Extract Javascript parameters (row, column)
+	// Validate parameters
+	if (!info[0]->IsUndefined() && !info[1]->IsUndefined())
+	{
+		// Extract Javascript parameters (row, column)
+		int row = Nan::To<int>(info[0]).FromJust();
+		int col = Nan::To<int>(info[1]).FromJust();
 
-	// Set player marker on specified ceel
-	tttGame->SetMark(row, col, X_MARKER);
+		// Set player marker on specified ceel
+		tttGame->SetMark(row, col, X_MARKER);
+	}
 }
 
 // Do AI turn
 NAN_METHOD(DoAiTurn)
 {
-	// Make AI move
-	tttGame->SetMark(row, col, O_MARKER);
+	// Do AI move
+	int row = -1, col = -1;
+	tttGame.GetBestMove(O_MARKER, row, col);
+	tttGame.SetMark(row, col, O_MARKER);
 
 	// Set parameters to Javascript (row, col)
+	v8::Local<v8::Array> retVals = Nan::New<v8::Array>(3);
+	Nan::Set(retVals, 0, Nan::New(row));
+	Nan::Set(retVals, 0, Nan::New(col));
+
+	// Return selected cell to Javascript
+	info.GetReturnValue().Set(retVals);
 }
 
 // Check if game is over
 NAN_METHOD(IsGameOver)
 {
-	// Make AI move
+	// Parameters are pointers to rowVector & colVector
+	// to indicate winning cells (i.e. a WinRow).
+
+	// Check for end game, retrieving any winning row
 	bool gameOver = tttGame.IsGameOver(winRows, winCols);
 	if (gameOver)
 	{
