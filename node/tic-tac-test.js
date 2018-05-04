@@ -1,13 +1,10 @@
+// Require TicTacToe library
+//var tttGame = require('bindings')('tic-tac-toe');
+var tttGame = require('./ticTacNode');
 
-// Require CGDV library
-var tttGame = require('bindings')('tic-tac-toe');
+// Startup
+tttGame.Startup();
 
-// Test CGDV status object
-//cgdvStatus = new cgdv.v8CgdvStatus();
-//console.log(cgdvStatus);
-
-// Startup CGDV
-console.log(cgdv.Startup(cgdvStatusDelegate));
 
 // Main Loop
 var mainLoop = setInterval(updateCgdv, 500);
@@ -24,8 +21,6 @@ function cgdvStatusDelegate(status)
 	console.log(status);
 //	console.log(Object.getOwnPropertyNames(status));
 }
-
-
 
 
 
@@ -85,3 +80,4 @@ int main()
 		tttGame.PrintBoard(winRows, winCols);
 		std::cout << std::endl;
 	}
+
