@@ -18,19 +18,6 @@ NAN_METHOD(Startup)
 {
 	// Start a new game
 	tttGame.NewGame();
-
-	// Winning sequence location
-	std::vector<int> winRows;
-	std::vector<int> winCols;
-
-	// Loop variables
-	MARKER_TYPE marker = X_MARKER;
-	int row = -1, col = -1;
-
-
-	// Set Javascript status delegate
-	// assume info[0]->IsFunction()
-	jsStatusDelegate.Reset(info[0].As<v8::Function>());
 }
 
 // Shutdown CGDV on Main UI thread
@@ -73,9 +60,9 @@ NAN_METHOD(DoAiTurn)
 	tttGame.SetMark(row, col, O_MARKER);
 
 	// Set parameters to Javascript (row, col)
-	v8::Local<v8::Array> retVals = Nan::New<v8::Array>(3);
+	v8::Local<v8::Array> retVals = Nan::New<v8::Array>(2).ToLocalChecked();
 	Nan::Set(retVals, 0, Nan::New(row));
-	Nan::Set(retVals, 0, Nan::New(col));
+	Nan::Set(retVals, 1, Nan::New(col));
 
 	// Return selected cell to Javascript
 	info.GetReturnValue().Set(retVals);
@@ -84,17 +71,56 @@ NAN_METHOD(DoAiTurn)
 // Check if game is over
 NAN_METHOD(IsGameOver)
 {
-	// Parameters are pointers to rowVector & colVector
-	// to indicate winning cells (i.e. a WinRow).
+	// Winning marker (-1 = game not over)
+	int winMark = -1;
 
-	// Check for end game, retrieving any winning row
+	// Winning sequence location
+	std::vector<int> winRows;
+	std::vector<int> winCols;
+
+	// Generic JS object for return data
+	v8::Local<v8::Object> jsObject = Nan::New<v8::Object>();
+
+	// Check it
 	bool gameOver = tttGame.IsGameOver(winRows, winCols);
 	if (gameOver)
 	{
 		// Determine type of end game
+		winMark = 0;
+		if (winRows.size() > 0)
+		{
+			// Determine winner
+			winMark = (int) tttGame.GetMark(winRows[0], winCols[0]);
+
+			// Create JS arrays of win row data
+			v8::Local<v8::Array> jsWinRows = Nan::New<v8::Array>(3).ToLocalChecked();
+			v8::Local<v8::Array> jsWinCols = Nan::New<v8::Array>(3).ToLocalChecked();
+			for (int i = 0;  i < winRows.size();  i++)
+			{
+				// Set marker for this win cell
+				Nan::Set(jsWinRows, i, Nan::New(winRows[i]));
+				Nan::Set(jsWinCols, i, Nan::New(winCols[i]));
+			}
+
+			// Return win rows
+			v8::Local<v8::String> arrayName = Nan::New("winRows").ToLocalChecked();
+//			v8::Local<v8::Array> arrayValues = Nan::New(winRows).ToLocalChecked();
+			Nan::Set(jsObject, arrayName, jsWinRows);
+
+			// Return win colums
+			arrayName = Nan::New("winCols").ToLocalChecked();
+//			arrayValues = Nan::New(winCols).ToLocalChecked();
+			Nan::Set(jsObject, arrayName, jsWinCols);
+		}
 	}
 
-	// Set parameters to Javascript (gameOver, winRows, winCols)
+	// Set game over status
+	v8::Local<v8::String> propName = Nan::New("winMark").ToLocalChecked();
+	v8::Local<v8::Value> propValue = Nan::New(winMark);
+	Nan::Set(jsObject, propName, propValue);
+
+	// Return data to Javascript
+	info.GetReturnValue().Set(jsObject);
 }
 
 // Module initialization logic
