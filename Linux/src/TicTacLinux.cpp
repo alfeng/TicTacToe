@@ -1,28 +1,8 @@
-// Require TicTacToe library
-//var tttGame = require('bindings')('tic-tac-toe');
-var tttGame = require('./ticTacNode');
+// *******************************************
+//      MAIN ENTRYPOINT FOR APPLICATION
+// *******************************************
 
-// Startup
-tttGame.Startup();
-
-
-// Main Loop
-var mainLoop = setInterval(updateCgdv, 500);
-function updateCgdv()
-{
-	// Update CGDV on main UI thread
-	cgdv.Update();
-}
-
-// CGDV Status Delegate
-function cgdvStatusDelegate(status)
-{
-	console.log("******** cgdv-test cgdvStatusDelegate ********");
-	console.log(status);
-//	console.log(Object.getOwnPropertyNames(status));
-}
-
-
+#include "CTicTacToe.h"
 
 // Program entry point
 int main()
@@ -43,10 +23,6 @@ int main()
 	// Loop variables
 	MARKER_TYPE marker = X_MARKER;
 	int row = -1, col = -1;
-
-	// Test winning
-//	tttGame.GetBestMove(marker, row, col);
-//	tttGame.SetMark(row, col, marker);
 
 	// Play until game over
 	do
@@ -80,4 +56,5 @@ int main()
 		tttGame.PrintBoard(winRows, winCols);
 		std::cout << std::endl;
 	}
+}
 

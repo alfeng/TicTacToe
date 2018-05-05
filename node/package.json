@@ -1,5 +1,5 @@
 {
-  "name": "tic-tac-svc",
+  "name": "ticTacNode",
   "version": "0.0.1",
   "scripts": {
     "install": "node-gyp rebuild",
@@ -7,21 +7,18 @@
     "test": "node tic-tac-test.js"
   },
   "dependencies": {
-    "nan": "^2.10.0",
-    "bindings": "^1.3.0"
+    "nan": "^2.8.0"
   },
   "gypfile": true,
-  "author": "alfeng",
+  "author": "ALF",
   "license": "ISC",
   "main": "tic-tac-svc.js",
   "keywords": [],
   "homepage": "https://github.com/alfeng/TicTacToe",
   "repository": {
     "type": "git",
-    "url": "https://github.com/alfeng/TicTacToe.git"
+    "url": "https://github.com/alfeng/TicTacToe"
   },
-  "publishConfig": {
-    "registry": "https://www.npmjs.com/alfarmer/tic-tac-svc"
-  },
-  "description": "Tic-Tac-Toe Game Engine Service"
+  "description": "Node native extension for TicTacToe engine."
 }
+

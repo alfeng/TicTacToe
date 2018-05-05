@@ -4,34 +4,35 @@
 
     'include_dirs': [
       "<!(node -e \"require('nan')\")",
-	  "../common"
+	  "../common",
+	  "./src"
     ],
 
     'cflags': [
-      "-Wall", "-std=c++11"
+#      "-Wall", "-std=c++11", "-m64", "-fPIC", "-frtti", "-fexceptions"
+      "-fPIC"
+    ],
+
+    'ldflags': [
+#      "-Wl,-z,defs",
+#      "-Wl,--export-dynamic"
     ],
 
     'conditions': [
-      ['OS=="linux"', {
-        'defines': [
-          "___PLATFORM_LINUX__"
-        ],
-
-        'include_dirs': [
-          "../common"
-        ]
-      }], #'OS=="linux"'
-
       ['OS=="mac"', {
-        'defines': [
-          "__PLATFORM_IOS__"
-        ],
         'xcode_settings': {
           "OTHER_CPLUSPLUSFLAGS" : ["-std=c++11","-stdlib=libc++"],
           "OTHER_LDFLAGS": ["-stdlib=libc++"],
           "MACOSX_DEPLOYMENT_TARGET": "10.7"
         }
       }], #'OS=="mac"'
+
+      ['OS=="linux"', {
+#        'include_dirs': [
+#          "<!(pwd)/../common",
+#          "<!(pwd)/src",
+#        ],
+      }], #'OS=="linux"'
 
       ['OS=="win"', {
         'defines': [
@@ -42,9 +43,10 @@
           "_CRT_NON_CONFORMING_SWPRINTFS"
         ],
 
-        'include_dirs': [
-          "../common"
-        ],
+#        'include_dirs': [
+#          "<!(pwd)/../common",
+#          "<!(pwd)/src",
+#        ],
 
         'configurations': {
           'Release': {
@@ -55,6 +57,10 @@
 
               'VCLinkerTool': {
                 'GenerateDebugInformation': "false",
+
+                'IgnoreDefaultLibraryNames': [
+                  "PocoCryptoMT.lib", "PocoFoundationMT.lib", "PocoJSONMT.lib", "PocoNetMT.lib",
+                  "PocoNetSSLMT.lib", "PocoUtilMT.lib", "PocoXMLMT.lib", "PocoZipMT.lib"
                 ]
               }
             } # 'msvs_settings'
@@ -65,10 +71,22 @@
     ], # 'conditions'
 
     'sources': [
-      "./TicTacToeV8.cpp",
-      "../common/CTiTacToe.cpp",
-      "../common/TurnLog.cpp"
+      "<!(pwd)/../common/CTicTacToe.cpp",
+      "<!(pwd)/../common/TurnLog.cpp",
+      "<!(pwd)/src/TicTacToeV8.cpp"
     ]
+  },  # tic-tac-toe target
 
-  }] # 'targets'
+  {
+      "target_name": "copy_binary",
+      "type": "none",
+      "dependencies" : [ "tic-tac-toe" ],
+      "copies": [{
+        'destination': '<(module_root_dir)',
+        'files': ['<(module_root_dir)/build/Release/tic-tac-toe.node']
+      }]
+  }  # copy target
+
+  ] # 'targets'
 }
+
