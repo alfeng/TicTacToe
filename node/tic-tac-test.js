@@ -5,6 +5,21 @@ var tttGame = require('./ticTacNode');
 // Startup
 tttGame.Startup();
 
+// Loop variables
+var marker = X_MARKER;
+var row = -1;
+var col = -1;
+
+// Winning sequence locaiton
+var winRows = [0, 0, 0];
+var winCols = [0, 0, 0];
+
+
+console.log(".............. BEGIN GAME ..............");
+
+
+console.log(".............. END GAME ..............");
+
 
 // Main Loop
 var mainLoop = setInterval(updateCgdv, 500);
@@ -14,40 +29,11 @@ function updateCgdv()
 	cgdv.Update();
 }
 
-// CGDV Status Delegate
-function cgdvStatusDelegate(status)
-{
-	console.log("******** cgdv-test cgdvStatusDelegate ********");
-	console.log(status);
-//	console.log(Object.getOwnPropertyNames(status));
-}
-
 
 
 // Program entry point
 int main()
 {
-	// The game brain
-	CTicTacToe tttGame;
-
-	// Start a new game
-	tttGame.NewGame();
-
-	// Winning sequence location
-	std::vector<int> winRows;
-	std::vector<int> winCols;
-
-	// Game over
-	std::cout << std::endl << ".............. BEGIN GAME .............." << std::endl;
-
-	// Loop variables
-	MARKER_TYPE marker = X_MARKER;
-	int row = -1, col = -1;
-
-	// Test winning
-//	tttGame.GetBestMove(marker, row, col);
-//	tttGame.SetMark(row, col, marker);
-
 	// Play until game over
 	do
 	{
