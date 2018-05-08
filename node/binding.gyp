@@ -10,7 +10,7 @@
 
     'cflags': [
 #      "-Wall", "-std=c++11", "-m64", "-fPIC", "-frtti", "-fexceptions"
-      "-fPIC"
+      "-Wall", "-std=c++11", "-fPIC"
     ],
 
     'ldflags': [
@@ -28,10 +28,10 @@
       }], #'OS=="mac"'
 
       ['OS=="linux"', {
-#        'include_dirs': [
-#          "<!(pwd)/../common",
-#          "<!(pwd)/src",
-#        ],
+        'include_dirs': [
+          "<!(pwd)/../common",
+          "<!(pwd)/src",
+        ],
       }], #'OS=="linux"'
 
       ['OS=="win"', {
@@ -71,9 +71,9 @@
     ], # 'conditions'
 
     'sources': [
-      "<!(pwd)/../common/CTicTacToe.cpp",
-      "<!(pwd)/../common/TurnLog.cpp",
-      "<!(pwd)/src/TicTacToeV8.cpp"
+      "../common/CTicTacToe.cpp",
+      "../common/TurnLog.cpp",
+      "./src/TicTacToeV8.cpp"
     ]
   },  # tic-tac-toe target
 

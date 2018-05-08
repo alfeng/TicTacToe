@@ -283,7 +283,7 @@ MARKER_TYPE CTicTacToe::isWinningRow(std::vector<MARKER_TYPE*> const &markers)
 	if (markers.size() > 0)
 	{
 		// Count matches
-		int mCount = 1;
+		size_t mCount = 1;
 		for (size_t i = 1;  i < markers.size();  i++)
 		{
 			if (*markers[i] == *markers[0])

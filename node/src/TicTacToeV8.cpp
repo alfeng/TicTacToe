@@ -33,7 +33,7 @@ NAN_METHOD(DoTurn)
 		int col = Nan::To<int>(info[1]).FromJust();
 
 		// Set player marker on specified ceel
-		tttGame->SetMark(row, col, X_MARKER);
+		tttGame.SetMark(row, col, X_MARKER);
 	}
 }
 
@@ -46,7 +46,7 @@ NAN_METHOD(DoAiTurn)
 	tttGame.SetMark(row, col, O_MARKER);
 
 	// Set parameters to Javascript (row, col)
-	v8::Local<v8::Array> retVals = Nan::New<v8::Array>(2).ToLocalChecked();
+	v8::Local<v8::Array> retVals = Nan::New<v8::Array>(2);
 	Nan::Set(retVals, 0, Nan::New(row));
 	Nan::Set(retVals, 1, Nan::New(col));
 
@@ -79,9 +79,9 @@ NAN_METHOD(IsGameOver)
 			winMark = (int) tttGame.GetMark(winRows[0], winCols[0]);
 
 			// Create JS arrays of win row data
-			v8::Local<v8::Array> jsWinRows = Nan::New<v8::Array>(NUM_ROWS).ToLocalChecked();
-			v8::Local<v8::Array> jsWinCols = Nan::New<v8::Array>(NUM_COLS).ToLocalChecked();
-			for (int i = 0;  i < winRows.size();  i++)
+			v8::Local<v8::Array> jsWinRows = Nan::New<v8::Array>(NUM_ROWS);
+			v8::Local<v8::Array> jsWinCols = Nan::New<v8::Array>(NUM_COLS);
+			for (int i = 0;  i < (int) winRows.size();  i++)
 			{
 				// Set marker for this win cell
 				Nan::Set(jsWinRows, i, Nan::New(winRows[i]));
