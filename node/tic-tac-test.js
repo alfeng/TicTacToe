@@ -2,12 +2,16 @@
 //var tttGame = require('bindings')('tic-tac-toe');
 var tttGame = require('./ticTacNode');
 
-// Set marker type values
+// Marker types
 const NO_MARKER = 0;
 const X_MARKER = 1;
 const Y_MARKER = 2;
 
+// Marker names
+var markerName = [" ", "X", "O"];
+
 // Loop variables
+var gameOver = false;
 var marker = X_MARKER;
 var row = -1;
 var col = -1;
@@ -35,49 +39,24 @@ do
     console.log("\n" + "Turn #" + tttGame.GetTurnCount());
     tttGame.PrintBoard(winRows, winCols);
     console.log("\n");
+
+    // Check if game over, extract game data
+    var winData = tttGame.IsGameOver(winRows, winCols);
+    if (winData.winMark >= 0)
+    {
+        // Copy win row data
+        gameOver = true;
+        winRows = winData.winRows;
+        winCols = winData.winCols;
+    }
 }
-while (!tttGame.IsGameOver(winRows, winCols));
+while (!gameOver);
 
+console.log(".............. GAME OVER ..............");
 
-
-console.log(".............. END GAME ..............");
-
-
-
-
-// Program entry point
-int main()
-{
-	// Play until game over
-	do
-	{
-		// Make best move for current marker
-		tttGame.GetBestMove(marker, row, col);
-		tttGame.SetMark(row, col, marker);
-
-		// Change sides
-		if (marker == X_MARKER)
-			marker = O_MARKER;
-		else
-			marker = X_MARKER;
-
-		// Print board
-		std::cout << std::endl << "Turn #" << tttGame.GetTurnCount() << std::endl;
-		tttGame.PrintBoard(winRows, winCols);
-		std::cout << std::endl;
-	}
-	while (!tttGame.IsGameOver(winRows, winCols));
-
-	// Game over
-	std::cout << ".............. GAME OVER .............." << std::endl;
-
-	// Indicate winner
-	if (winRows.size() > 0)
-	{
-		// Print winner info.
-		MARKER_TYPE winMark = tttGame.GetMark(winRows[0], winCols[0]);
-		std::cout << "Winner: " << tttGame.markerName[winMark] << std::endl;
-		tttGame.PrintBoard(winRows, winCols);
-		std::cout << std::endl;
-	}
+// Print winner info.
+var winMark = tttGame.GetMark(winRows[0], winCols[0]);
+console.log("Winner: " + markerName[winMark]);
+tttGame.PrintBoard(winRows, winCols);
+console.log("\n");
 

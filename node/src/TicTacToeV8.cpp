@@ -79,8 +79,8 @@ NAN_METHOD(IsGameOver)
 			winMark = (int) tttGame.GetMark(winRows[0], winCols[0]);
 
 			// Create JS arrays of win row data
-			v8::Local<v8::Array> jsWinRows = Nan::New<v8::Array>(3).ToLocalChecked();
-			v8::Local<v8::Array> jsWinCols = Nan::New<v8::Array>(3).ToLocalChecked();
+			v8::Local<v8::Array> jsWinRows = Nan::New<v8::Array>(NUM_ROWS).ToLocalChecked();
+			v8::Local<v8::Array> jsWinCols = Nan::New<v8::Array>(NUM_COLS).ToLocalChecked();
 			for (int i = 0;  i < winRows.size();  i++)
 			{
 				// Set marker for this win cell
@@ -117,10 +117,57 @@ NAN_METHOD(GetTurnCount)
 	info.GetReturnValue().Set(count);
 }
 
+// Get marker at specified cell
+NAN_METHOD(GetMark)
+{
+	// Set default
+	MARKER_TYPE marker = NO_MARKER;
+
+	// Validate parameters
+	if (!info[0]->IsUndefined() && !info[1]->IsUndefined())
+	{
+		// Extract Javascript parameters (row, column)
+		int row = Nan::To<int>(info[0]).FromJust();
+		int col = Nan::To<int>(info[1]).FromJust();
+
+		// Get it
+		marker = tttGame.GetMark(row, col);
+	}
+
+	// Return marker value to Javascript
+	info.GetReturnValue().Set((int) marker);
+}
+
 // Log current game board state
 NAN_METHOD(PrintBoard)
 {
-	// Reset game
+	// Winning sequence location
+	std::vector<int> winRows;
+	std::vector<int> winCols;
+
+	// Validate parameters
+	if (!info[0]->IsUndefined() && !info[1]->IsUndefined())
+	{
+		// Extract Javascript arrays
+//		v8::Local<v8::Array> jsWinRows = v8::Local<v8::Array>::Cast(info[0]);
+//		v8::Local<v8::Array> jsWinCols = v8::Local<v8::Array>::Cast(info[1]);
+		v8::Local<v8::Array> jsWinRows = info[0].As<v8::Array>();
+		v8::Local<v8::Array> jsWinCols = info[1].As<v8::Array>();
+
+		// Marshall arrays
+		for (unsigned int i = 0;  i < jsWinRows->Length();  i++)
+		{
+			if (Nan::Has(jsWinRows, i).FromJust())
+				winRows[i] = Nan::To<int>(Nan::Get(jsWinRows, i)).FromJust();
+//				winRows[i] = Nan::Get(jsWinRows, i).ToLocalChecked()->NumberValue();
+
+			if (Nan::Has(jsWinCols, i).FromJust())
+				winCols[i] = Nan::To<int>(Nan::Get(jsWinCols, i)).FromJust();
+//				winCols[i] = Nan::Get(jsWinCols, i).ToLocalChecked()->NumberValue();
+		}
+	}
+
+	// Print board
 	tttGame.PrintBoard(winRows, winCols);
 }
 
@@ -132,6 +179,7 @@ NAN_MODULE_INIT(Initialize)
 	NAN_EXPORT(target, DoTurn);
 	NAN_EXPORT(target, DoAiTurn);
 	NAN_EXPORT(target, IsGameOver);
+	NAN_EXPORT(target, GetMark);
 	NAN_EXPORT(target, GetTurnCount);
 	NAN_EXPORT(target, PrintBoard);
 }
