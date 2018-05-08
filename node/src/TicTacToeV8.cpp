@@ -13,20 +13,6 @@ CTicTacToe tttGame;
 //   Javascript interface
 // ********************************************************************
 
-// Init the TicTacToe Engine
-NAN_METHOD(Startup)
-{
-	// Start a new game
-	tttGame.NewGame();
-}
-
-// Shutdown CGDV on Main UI thread
-NAN_METHOD(Shutdown)
-{
-	// Start CGDV
-	tttGame->Shutdown();
-}
-
 // Reset game
 NAN_METHOD(NewGame)
 {
@@ -123,16 +109,31 @@ NAN_METHOD(IsGameOver)
 	info.GetReturnValue().Set(jsObject);
 }
 
+// Get number of turns that have been played
+NAN_METHOD(GetTurnCount)
+{
+	// Get count and return it to Javascript
+	int count = tttGame.GetTurnCount();
+	info.GetReturnValue().Set(count);
+}
+
+// Log current game board state
+NAN_METHOD(PrintBoard)
+{
+	// Reset game
+	tttGame.PrintBoard(winRows, winCols);
+}
+
 // Module initialization logic
 NAN_MODULE_INIT(Initialize)
 {
 	// Export CGDV methods
-	NAN_EXPORT(target, Startup);
-	NAN_EXPORT(target, Shutdown);
 	NAN_EXPORT(target, NewGame);
 	NAN_EXPORT(target, DoTurn);
 	NAN_EXPORT(target, DoAiTurn);
 	NAN_EXPORT(target, IsGameOver);
+	NAN_EXPORT(target, GetTurnCount);
+	NAN_EXPORT(target, PrintBoard);
 }
 
 // Create the add-on module and initialize it (created with NAN_MODULE_INIT macro)

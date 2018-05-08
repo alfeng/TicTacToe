@@ -2,8 +2,10 @@
 //var tttGame = require('bindings')('tic-tac-toe');
 var tttGame = require('./ticTacNode');
 
-// Startup
-tttGame.Startup();
+// Set marker type values
+const NO_MARKER = 0;
+const X_MARKER = 1;
+const Y_MARKER = 2;
 
 // Loop variables
 var marker = X_MARKER;
@@ -11,23 +13,35 @@ var row = -1;
 var col = -1;
 
 // Winning sequence locaiton
-var winRows = [0, 0, 0];
-var winCols = [0, 0, 0];
-
+var winRows = [-1, -1, -1];
+var winCols = [-1, -1, -1];
 
 console.log(".............. BEGIN GAME ..............");
+tttGame.NewGame();
+
+do
+{
+    // Make best move for current marker
+    tttGame.GetBestMove(marker, row, col);
+    tttGame.SetMark(row, col, marker);
+
+    // Change sides
+    if (marker == X_MARKER)
+        marker = O_MARKER;
+    else
+        marker = X_MARKER;
+
+    // Print board
+    console.log("\n" + "Turn #" + tttGame.GetTurnCount());
+    tttGame.PrintBoard(winRows, winCols);
+    console.log("\n");
+}
+while (!tttGame.IsGameOver(winRows, winCols));
+
 
 
 console.log(".............. END GAME ..............");
 
-
-// Main Loop
-var mainLoop = setInterval(updateCgdv, 500);
-function updateCgdv()
-{
-	// Update CGDV on main UI thread
-	cgdv.Update();
-}
 
 
 
