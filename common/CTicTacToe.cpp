@@ -350,11 +350,6 @@ void CTicTacToe::evaluateBoard(MARKER_TYPE marker)
 // Evaluate row for specified marker type
 void CTicTacToe::evaluateRow(MARKER_TYPE playerMarker, std::vector<MARKER_TYPE*> const &markers, std::vector<int*> &scores)
 {
-	// Set opponent marker
-	MARKER_TYPE oppMarker = X_MARKER;
-	if (playerMarker == X_MARKER)
-		oppMarker = O_MARKER;
-
 	// Count markers
 	int xCount = 0, oCount = 0, nilCount = 0;
 	for (auto marker : markers)

@@ -1,11 +1,11 @@
 // Require TicTacToe library
 //var tttGame = require('bindings')('tic-tac-toe');
-var tttGame = require('./ticTacNode');
+var tttGame = require('./TicTacSvc');
 
 // Marker types
 const NO_MARKER = 0;
 const X_MARKER = 1;
-const Y_MARKER = 2;
+const O_MARKER = 2;
 
 // Marker names
 var markerName = [" ", "X", "O"];
@@ -25,8 +25,12 @@ tttGame.NewGame();
 
 do
 {
-    // Make best move for current marker
-    tttGame.GetBestMove(marker, row, col);
+    // Determine best move for current marker
+    var bestMove = tttGame.GetBestMove(marker, row, col);
+    row = bestMove[0];
+    col = bestMove[1];
+
+    // Make the move
     tttGame.SetMark(row, col, marker);
 
     // Change sides

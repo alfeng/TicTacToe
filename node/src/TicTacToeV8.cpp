@@ -54,6 +54,34 @@ NAN_METHOD(DoAiTurn)
 	info.GetReturnValue().Set(retVals);
 }
 
+// Choose best move for specified marker
+NAN_METHOD(GetBestMove)
+{
+	// Default to no move available
+	int row = -1;
+	int col = -1;
+
+	// Validate parameters
+	if (!info[0]->IsUndefined() && !info[1]->IsUndefined() && !info[2]->IsUndefined())
+	{
+		// Extract Javascript parameters (row, column)
+		MARKER_TYPE marker = (MARKER_TYPE) Nan::To<int>(info[0]).FromJust();
+		row = Nan::To<int>(info[1]).FromJust();
+		col = Nan::To<int>(info[2]).FromJust();
+
+		// Get move
+		tttGame.GetBestMove(marker, row, col);
+	}
+
+	// Set parameters to Javascript (row, col)
+	v8::Local<v8::Array> retVals = Nan::New<v8::Array>(2);
+	Nan::Set(retVals, 0, Nan::New(row));
+	Nan::Set(retVals, 1, Nan::New(col));
+
+	// Return selected cell to Javascript
+	info.GetReturnValue().Set(retVals);
+}
+
 // Check if game is over
 NAN_METHOD(IsGameOver)
 {
@@ -138,6 +166,22 @@ NAN_METHOD(GetMark)
 	info.GetReturnValue().Set((int) marker);
 }
 
+// Set specified marker
+NAN_METHOD(SetMark)
+{
+	// Validate parameters
+	if (!info[0]->IsUndefined() && !info[1]->IsUndefined() && !info[2]->IsUndefined())
+	{
+		// Extract Javascript parameters (row, column)
+		int row = Nan::To<int>(info[0]).FromJust();
+		int col = Nan::To<int>(info[1]).FromJust();
+		MARKER_TYPE marker = (MARKER_TYPE) Nan::To<int>(info[2]).FromJust();
+
+		// Get move
+		tttGame.SetMark(row, col, marker);
+	}
+}
+
 // Log current game board state
 NAN_METHOD(PrintBoard)
 {
@@ -176,12 +220,14 @@ NAN_MODULE_INIT(Initialize)
 	NAN_EXPORT(target, NewGame);
 	NAN_EXPORT(target, DoTurn);
 	NAN_EXPORT(target, DoAiTurn);
-	NAN_EXPORT(target, IsGameOver);
+	NAN_EXPORT(target, GetBestMove);
 	NAN_EXPORT(target, GetMark);
+	NAN_EXPORT(target, SetMark);
+	NAN_EXPORT(target, IsGameOver);
 	NAN_EXPORT(target, GetTurnCount);
 	NAN_EXPORT(target, PrintBoard);
 }
 
 // Create the add-on module and initialize it (created with NAN_MODULE_INIT macro)
-NODE_MODULE(tic-tac-svc, Initialize);
+NODE_MODULE(TicTacSvc, Initialize);
 
