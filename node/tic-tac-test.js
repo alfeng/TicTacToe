@@ -39,8 +39,13 @@ do
     else
         marker = X_MARKER;
 
+    // Get turn count
+    var turnCount = tttGame.GetTurnCount();
+
+// console.log("........Turn count = " + turnCount);
+
     // Print board
-    console.log("\n" + "Turn #" + tttGame.GetTurnCount());
+    console.log("\n" + "Turn #" + turnCount);
     tttGame.PrintBoard(winRows, winCols);
     console.log("\n");
 
@@ -50,8 +55,10 @@ do
     {
         // Copy win row data
         gameOver = true;
-        winRows = winData.winRows;
-        winCols = winData.winCols;
+//        winRows = winData.winRows;
+//        winCols = winData.winCols;
+console.log("winData.winRows = " + winData.winRows);
+console.log("winData.winCols = " + winData.winCols);
     }
 }
 while (!gameOver);

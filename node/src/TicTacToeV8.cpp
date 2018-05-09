@@ -202,10 +202,18 @@ NAN_METHOD(PrintBoard)
 		for (unsigned int i = 0;  i < jsWinRows->Length();  i++)
 		{
 			if (Nan::Has(jsWinRows, i).FromJust())
-				winRows[i] = Nan::To<int>(Nan::Get(jsWinRows, i).ToLocalChecked()).FromJust();
+			{
+				winRows.push_back(Nan::To<int>(Nan::Get(jsWinRows, i).ToLocalChecked()).FromJust());
+			}
 
 			if (Nan::Has(jsWinCols, i).FromJust())
-				winCols[i] = Nan::To<int>(Nan::Get(jsWinCols, i).ToLocalChecked()).FromJust();
+			{
+				winCols.push_back(Nan::To<int>(Nan::Get(jsWinCols, i).ToLocalChecked()).FromJust());
+			}
+
+			// Debug info.
+//			std::cout << "winRows[" << i << "] = " << winRows[i] << std::endl;
+//			std::cout << "winCols[" << i << "] = " << winCols[i] << std::endl << std::endl;
 		}
 	}
 
