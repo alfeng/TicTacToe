@@ -95,6 +95,10 @@ NAN_METHOD(IsGameOver)
 	// Generic JS object for return data
 	v8::Local<v8::Object> jsObject = Nan::New<v8::Object>();
 
+	// Create JS arrays of win row data
+	v8::Local<v8::Array> jsWinRows = Nan::New<v8::Array>(NUM_ROWS);
+	v8::Local<v8::Array> jsWinCols = Nan::New<v8::Array>(NUM_COLS);
+
 	// Check it
 	bool gameOver = tttGame.IsGameOver(winRows, winCols);
 	if (gameOver)
@@ -106,9 +110,7 @@ NAN_METHOD(IsGameOver)
 			// Determine winner
 			winMark = (int) tttGame.GetMark(winRows[0], winCols[0]);
 
-			// Create JS arrays of win row data
-			v8::Local<v8::Array> jsWinRows = Nan::New<v8::Array>(NUM_ROWS);
-			v8::Local<v8::Array> jsWinCols = Nan::New<v8::Array>(NUM_COLS);
+			// Set win row data
 			for (int i = 0;  i < (int) winRows.size();  i++)
 			{
 				// Set marker for this win cell
@@ -117,14 +119,12 @@ NAN_METHOD(IsGameOver)
 			}
 
 			// Return win rows
-			v8::Local<v8::String> arrayName = Nan::New("winRows").ToLocalChecked();
-//			v8::Local<v8::Array> arrayValues = Nan::New(winRows).ToLocalChecked();
-			Nan::Set(jsObject, arrayName, jsWinRows);
+//			v8::Local<v8::String> arrayName = Nan::New("winRows").ToLocalChecked();
+//			Nan::Set(jsObject, arrayName, jsWinRows);
 
 			// Return win colums
-			arrayName = Nan::New("winCols").ToLocalChecked();
-//			arrayValues = Nan::New(winCols).ToLocalChecked();
-			Nan::Set(jsObject, arrayName, jsWinCols);
+//			arrayName = Nan::New("winCols").ToLocalChecked();
+//			Nan::Set(jsObject, arrayName, jsWinCols);
 		}
 	}
 
@@ -132,6 +132,14 @@ NAN_METHOD(IsGameOver)
 	v8::Local<v8::String> propName = Nan::New("winMark").ToLocalChecked();
 	v8::Local<v8::Value> propValue = Nan::New(winMark);
 	Nan::Set(jsObject, propName, propValue);
+
+	// Return win rows
+	propName = Nan::New("winRows").ToLocalChecked();
+	Nan::Set(jsObject, propName, jsWinRows);
+
+	// Return win colums
+	propName = Nan::New("winCols").ToLocalChecked();
+	Nan::Set(jsObject, propName, jsWinCols);
 
 	// Return data to Javascript
 	info.GetReturnValue().Set(jsObject);

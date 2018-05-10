@@ -8,7 +8,7 @@ const X_MARKER = 1;
 const O_MARKER = 2;
 
 // Marker names
-var markerName = [" ", "X", "O"];
+var markerName = ["-", "X", "O"];
 
 // Loop variables
 var gameOver = false;
@@ -17,6 +17,7 @@ var row = -1;
 var col = -1;
 
 // Winning sequence locaiton
+var winMark = 0;
 var winRows = [-1, -1, -1];
 var winCols = [-1, -1, -1];
 
@@ -51,14 +52,16 @@ do
 
     // Check if game over, extract game data
     var winData = tttGame.IsGameOver(winRows, winCols);
-    if (winData.winMark >= 0)
+    winMark = winData["winMark"]
+    if (winMark >= 0)
     {
         // Copy win row data
         gameOver = true;
-//        winRows = winData.winRows;
-//        winCols = winData.winCols;
-console.log("winData.winRows = " + winData.winRows);
-console.log("winData.winCols = " + winData.winCols);
+//        winRows = winData["winRows"];
+//        winCols = winData["winCols"];
+console.log("winData.winMark = " + winData["winMark"]);
+console.log("winData.winRows = " + winData["winRows"]);
+console.log("winData.winCols = " + winData["winCols"]);
     }
 }
 while (!gameOver);
@@ -66,8 +69,5 @@ while (!gameOver);
 console.log(".............. GAME OVER ..............");
 
 // Print winner info.
-var winMark = tttGame.GetMark(winRows[0], winCols[0]);
-console.log("Winner: " + markerName[winMark]);
-tttGame.PrintBoard(winRows, winCols);
-console.log("\n");
+console.log("\n" + "Winner: " + markerName[winMark] + "\n");
 
