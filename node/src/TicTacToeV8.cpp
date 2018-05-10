@@ -119,12 +119,12 @@ NAN_METHOD(IsGameOver)
 			}
 
 			// Return win rows
-//			v8::Local<v8::String> arrayName = Nan::New("winRows").ToLocalChecked();
-//			Nan::Set(jsObject, arrayName, jsWinRows);
+			v8::Local<v8::String> arrayName = Nan::New("winRows").ToLocalChecked();
+			Nan::Set(jsObject, arrayName, jsWinRows);
 
 			// Return win colums
-//			arrayName = Nan::New("winCols").ToLocalChecked();
-//			Nan::Set(jsObject, arrayName, jsWinCols);
+			arrayName = Nan::New("winCols").ToLocalChecked();
+			Nan::Set(jsObject, arrayName, jsWinCols);
 		}
 	}
 
@@ -132,14 +132,6 @@ NAN_METHOD(IsGameOver)
 	v8::Local<v8::String> propName = Nan::New("winMark").ToLocalChecked();
 	v8::Local<v8::Value> propValue = Nan::New(winMark);
 	Nan::Set(jsObject, propName, propValue);
-
-	// Return win rows
-	propName = Nan::New("winRows").ToLocalChecked();
-	Nan::Set(jsObject, propName, jsWinRows);
-
-	// Return win colums
-	propName = Nan::New("winCols").ToLocalChecked();
-	Nan::Set(jsObject, propName, jsWinCols);
 
 	// Return data to Javascript
 	info.GetReturnValue().Set(jsObject);

@@ -24,6 +24,11 @@ var winCols = [-1, -1, -1];
 console.log(".............. BEGIN GAME ..............");
 tttGame.NewGame();
 
+// Test winning
+//var bestMove = tttGame.GetBestMove(marker, row, col);
+//row = bestMove[0];  col = bestMove[1];
+//tttGame.SetMark(row, col, marker);
+
 do
 {
     // Determine best move for current marker
@@ -43,8 +48,6 @@ do
     // Get turn count
     var turnCount = tttGame.GetTurnCount();
 
-// console.log("........Turn count = " + turnCount);
-
     // Print board
     console.log("\n" + "Turn #" + turnCount);
     tttGame.PrintBoard(winRows, winCols);
@@ -53,15 +56,18 @@ do
     // Check if game over, extract game data
     var winData = tttGame.IsGameOver(winRows, winCols);
     winMark = winData["winMark"]
-    if (winMark >= 0)
+    if (winMark >= NO_MARKER)
     {
-        // Copy win row data
+        // Exit loop
         gameOver = true;
-//        winRows = winData["winRows"];
-//        winCols = winData["winCols"];
-console.log("winData.winMark = " + winData["winMark"]);
-console.log("winData.winRows = " + winData["winRows"]);
-console.log("winData.winCols = " + winData["winCols"]);
+
+        // Check for a winner
+        if (winMark > NO_MARKER)
+        {
+            // Copy win row data
+            winRows = winData["winRows"];
+            winCols = winData["winCols"];
+        }
     }
 }
 while (!gameOver);
@@ -70,4 +76,6 @@ console.log(".............. GAME OVER ..............");
 
 // Print winner info.
 console.log("\n" + "Winner: " + markerName[winMark] + "\n");
+tttGame.PrintBoard(winRows, winCols);
+console.log("\n");
 
