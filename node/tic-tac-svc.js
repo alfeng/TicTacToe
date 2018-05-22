@@ -1,106 +1,76 @@
-// Require CGDV library
-var cgdv = require('bindings')('cgdvV8');
-// var cgdv = require('./build/Release/cgdvV8');
-// var cgdv = require('./bin/win32-x64-54/cgdvV8');
 
-// Test CGDV status object
-//cgdvStatus = new cgdv.v8CgdvStatus();
-//console.log(cgdvStatus);
+// ****** THIS SHOULD BE CALLED ticTackToe because we need
+// ****** the SERVICE to be a REST service that imports this one
 
-// CGDV update timer
-const UPDATE_TIME_MS = 500;
-var cgdvTimer = null;
 
-// User status delegate
-var userStatusDelegate = null;
+// Require TicTacToe library
+//var tttGame = require('bindings')('TicTacSvc');
+var tttGame = require('./TicTacSvc');
 
+// Marker types
+export const NO_MARKER = 0;
+export const X_MARKER = 1;
+export const O_MARKER = 2;
 
 // ********* MODULE EXPORTS ***********
 
-// Export CGDV for use by consuming apps
-// exports.cgdv = cgdv;
-
-// Startup CGDV
-exports.Startup = function Startup(statusDelegate)
+// Start new game
+exports.NewGame = function NewGame()
 {
-    // Remember user status delegate
-	userStatusDelegate = statusDelegate;
-
-    // Set status delegate
-    cgdv.Startup(cgdvStatusDelegate);
-
-    // Start update timer
-    startUpdateTimer();
+    // Call native method
+    tttGame.NewGame();
 }
 
-// Shutdown CGDV
-exports.Shutdown = function Shutdown()
+// Get specified marker
+exports.GetMark = function GetMark(row, column)
 {
-    // Kill update timer
-    stopUpdateTimer();
+    // Call native method
+    var marker = tttGame.GetMark(row, column);
 
-    // Shutdown CGDV
-    cgdv.Shutdown();
+    // Return marker type at that cell
+    return marker;
 }
 
-// Revalidate CGDV
-exports.Validate = function Validate()
+// Set specified marker
+exports.SetMark = function SetMark(row, column, marker)
 {
-    // Revalidate CGDV
-    cgdv.Validate();
+    // Call native method
+    tttGame.SetMark(row, column, marker);
 }
 
-// Suspend CGDV
-exports.Suspend = function Suspend()
+// Get current turn count
+exports.GetTurnCount = function GetTurnCount()
 {
-    // Pause update timer
-    stopUpdateTimer();
-
-    // Suspend CGDV
-    cgdv.Suspend();
+    // Call native method
+    return tttGame.GetTurnCount();
 }
 
-// Resume CGDV
-exports.Resume = function Resume()
+// Get best possible move for specified marker
+exports.GetBestMove = function GetBestMove(marker, row, column)
 {
-    // Resume CGDV
-    cgdv.Resume();
+    // Call native method
+    var bestRowCol = tttGame.GetBestMove(marker, row, column);
 
-    // Resume update timer
-    startUpdateTimer();
+    // Return array containing best row & column
+    return bestRowCol;
 }
 
-// CGDV update timer must be on main thread because it calls back into Javascript
-function updateCgdv()
+// Check if game over
+exports.IsGameOver = function IsGameOver(row, column)
 {
-	// Update CGDV on main UI thread
-	cgdv.Update();
+    // Returns custom object containing three fields
+    //   winRows - Array of win row coordinates
+    //   winCols - Array of win column coordinates
+    //   winMark - Winning marker or -1 if game not over
+
+    // Call native method
+    return tttGame.IsGameOver(row, column);
 }
 
-// Start update timer
-function startUpdateTimer()
+// Get current turn count
+exports.PrintBoard = function PrintBoard(winRows, winCols)
 {
-    if (cgdvTimer == null)
-        cgdvTimer = setInterval(updateCgdv, UPDATE_TIME_MS);
+    // Call native method
+    tttGame.PrintBoard(winRows, winCols);
 }
 
-// Stop update timer
-function stopUpdateTimer()
-{
-    if (cgdvTimer != null)
-	{
-        clearInterval(cgdvTimer);
-		cgdvTimer = null;
-    }
-}
-
-// CGDV Status Delegate
-function cgdvStatusDelegate(status)
-{
-    // Do any preemptive status processing here (only pass to user when necessary)
-	console.log("******** cgdv-lib.js cgdvStatusDelegate ********");
-	console.log(Object.getOwnPropertyNames(status));
-
-    // Pass CGDV status to user
-    userStatusDelegate(status);
-}
