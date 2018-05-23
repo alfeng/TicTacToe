@@ -1,8 +1,4 @@
 
-// ****** THIS SHOULD BE CALLED ticTackToe because we need
-// ****** the SERVICE to be a REST service that imports this one
-
-
 // Require TicTacToe library
 //var tttGame = require('bindings')('TicTacSvc');
 var tttGame = require('./TicTacSvc');

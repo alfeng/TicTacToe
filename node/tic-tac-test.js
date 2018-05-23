@@ -1,6 +1,6 @@
 // Require TicTacToe library
 //var tttGame = require('bindings')('tic-tac-toe');
-var tttGame = require('./TicTacSvc');
+var tttGame = require('./TicTacToe');
 
 // Marker types
 const NO_MARKER = 0;

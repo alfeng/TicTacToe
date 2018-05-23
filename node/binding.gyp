@@ -1,6 +1,6 @@
 {
   'targets': [{
-    'target_name': "TicTacSvc",
+    'target_name': "TicTacToe",
 
     'include_dirs': [
       "<!(node -e \"require('nan')\")",
@@ -75,15 +75,15 @@
       "../common/TurnLog.cpp",
       "./src/TicTacToeV8.cpp"
     ]
-  },  # TicTacSvc target
+  },  # TicTacToe target
 
   {
       "target_name": "copy_binary",
       "type": "none",
-      "dependencies" : [ "TicTacSvc" ],
+      "dependencies" : [ "TicTacToe" ],
       "copies": [{
         'destination': '<(module_root_dir)',
-        'files': ['<(module_root_dir)/build/Release/TicTacSvc.node']
+        'files': ['<(module_root_dir)/build/Release/TicTacToe.node']
       }]
   }  # copy target
 
