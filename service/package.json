@@ -1,0 +1,23 @@
+{
+  "name": "tic-tac-svc",
+  "version": "0.0.1",
+  "main": "ticTacSvc.js",
+  "scripts": {
+    "test": "node ticTacSvc.js"
+  },
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "express": "^4.16.3"
+  },
+  "author": "ALF",
+  "license": "ISC",
+  "main": "ticTacSvc.js",
+  "keywords": [],
+  "homepage": "https://github.com/alfeng/TicTacToe",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/alfeng/TicTacToe"
+  },
+  "description": "Express-based Tic-Tac-Toe service"
+}
+
