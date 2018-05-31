@@ -30,5 +30,5 @@ function setDefaultContentType(req, rsp, next)
     res.header('Content-Type', 'application/json');
     next();
 }
-app.use('/json', setDefaultContentType);
+app.use('/tic-tac-toe', setDefaultContentType);
 
