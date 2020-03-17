@@ -3,17 +3,29 @@ package com.mythica.ticmytac
 import android.os.Bundle
 import android.os.Handler
 import android.view.View
+import android.util.Log
 import android.widget.Button
 import android.widget.ImageButton
-import android.support.v4.content.ContextCompat
-import android.support.v7.app.AppCompatActivity
-import android.util.Log
+import androidx.core.content.ContextCompat
+import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_main.*
 
 // Single activity app
 class MainActivity : AppCompatActivity()
 {
-    private val LOG_TAG = "TICTAC"
+    // Kotlin doesn't support the 'static' keyword, this is their workaround
+    companion object
+    {
+        // Tag used for LogCat
+        @Suppress("SpellCheckingInspection")
+        private const val LOG_TAG = "TICTAC"
+
+        // Used to load the 'native-lib' library on application startup.
+        init
+        {
+            System.loadLibrary("native-lib")
+        }
+    }
 
     /**
      * A native method that is implemented by the 'native-lib' native library,
@@ -25,15 +37,6 @@ class MainActivity : AppCompatActivity()
     private external fun doTurn(row: Int, col: Int)
     private external fun doAITurn(turnData: CellData)
     private external fun isGameOver(rows: ArrayList<Int>, cols: ArrayList<Int>): Int
-
-    companion object
-    {
-        // Used to load the 'native-lib' library on application startup.
-        init
-        {
-            System.loadLibrary("native-lib")
-        }
-    }
 
     // Keep track whos turn it is
     private var curPlayer = MarkerType.X
@@ -201,8 +204,8 @@ class MainActivity : AppCompatActivity()
             Log.v(LOG_TAG,"WINNING ROWS: " + Integer.toString(rows.size))
             if ((rows.size > 0) && (rows.size == cols.size))
             {
-                // Highlight winning cells
-                for (i in 0..(rows.size - 1))
+                // Highlight winning cells ('until' goes to rows.size-1)
+                for (i in 0 until rows.size)
                 {
                     // Search for each winning cell in the map
                     for ((key, value) in buttonMap)

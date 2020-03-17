@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<lint>
+    <!-- Ignore that app icons aren't properly shaped -->
+    <issue id="IconLauncherShape" severity="ignore" />
+
+    <!-- Ignore that we're causing overdraw by defining a background color instead of deriving a custom View -->
+    <issue id="Overdraw" severity="ignore" />
+
+    <!-- Ignore that we don't provide a specific list of things to back up -->
+    <issue id="AllowBackup">
+        <ignore path="src/main/AndroidManifest.xml" />
+    </issue>
+
+    <!-- Ignore that we don't provide a URL for app indexing (only applies to Google Play and we're not in their store) -->
+    <issue id="GoogleAppIndexingWarning">
+        <ignore path="src/main/AndroidManifest.xml" />
+    </issue>
+
+    <!-- Ignore that there's no content description for the "Enter" button -->
+    <issue id="ContentDescription">
+        <ignore path="src/main/res/layout/activity_launch.xml" />
+    </issue>
+</lint>
