@@ -2,12 +2,13 @@ package com.mythica.ticmytac
 
 import android.os.Bundle
 import android.os.Handler
-import android.view.View
 import android.util.Log
+import android.view.KeyEvent
+import android.view.View
 import android.widget.Button
 import android.widget.ImageButton
-import androidx.core.content.ContextCompat
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import kotlinx.android.synthetic.main.activity_main.*
 
 // Single activity app
@@ -244,5 +245,23 @@ class MainActivity : AppCompatActivity()
             textCopyright.text = resources.getString(R.string.human_turn)
             curPlayer = humanPlayer
         }
+    }
+
+    // Get keyboard input
+    override fun onKeyUp(keyCode: Int, event: KeyEvent?): Boolean
+    {
+        var handled = false
+        if (KeyEvent.KEYCODE_MENU == keyCode)
+        {
+            Log.v(LOG_TAG,"KEYCODE_MENU pressed")
+            handled = true
+        }
+        else if (KeyEvent.KEYCODE_7 == keyCode)
+        {
+            Log.v(LOG_TAG,"KEYCODE_7 pressed")
+            handled = true
+        }
+
+        return handled || super.onKeyDown(keyCode, event)
     }
 }
