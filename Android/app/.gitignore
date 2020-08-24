@@ -16,5 +16,6 @@ out/
 build/
 proguard/
 captures/
+.cxx/
 .navigation/
 .externalNativeBuild/
